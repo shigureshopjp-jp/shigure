@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>時雨しぐれ｜商品下單</title>
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <div id="loadingOverlay" class="loading-overlay" style="display:none;">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <div class="loading-title">處理中</div>
+      <div class="loading-text">正在建立訂單，請稍候…</div>
+    </div>
+  </div>
+
+  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+    <div id="appToast" class="toast custom-toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body" id="appToastBody"></div>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="hero-box mb-3">
+      <div class="hero-head">
+        <img class="brand-logo" src="https://duk.tw/wU55yW.jpg" alt="時雨しぐれ Logo" onerror="this.style.display='none'">
+        <h1 class="hero-title">時雨しぐれ｜商品下單</h1>
+      </div>
+      <p class="hero-desc">
+        於官方 LINE 內開啟，可直接讀取 LINE 身分。<br>
+        選擇商品後加入購物車，再一次送出下單。
+      </p>
+    </div>
+
+    <div id="loginStatusArea"></div>
+
+    <div id="successBox" class="mb-3"></div>
+
+    <h2 class="section-title mb-3">商品列表</h2>
+    <div id="loading" class="text-secondary mb-3">商品載入中...</div>
+    <div id="app"></div>
+  </div>
+
+  <button class="floating-cart" type="button" onclick="openCart()">
+    🛒 購物車 <span id="cartCount">0</span>
+  </button>
+
+  <!-- Cart Modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-dialog-bottom">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">購物車</h5>
+          <button type="button" class="btn-close" aria-label="Close" onclick="closeCart()"></button>
+        </div>
+        <div class="modal-body" id="cartBody"></div>
+        <div class="modal-footer" id="cartFooter"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-bottom">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">商品詳情</h5>
+          <button type="button" class="btn-close" aria-label="Close" onclick="productModalInstance.hide()"></button>
+        </div>
+        <div class="modal-body" id="productModalBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title">確認操作</h5>
+          <button type="button" class="btn-close" aria-label="Close" onclick="closeConfirm(false)"></button>
+        </div>
+        <div class="modal-body pt-2">
+          <div id="confirmText" class="text-secondary" style="line-height:1.85;"></div>
+        </div>
+        <div class="modal-footer border-0 d-flex flex-column flex-md-row">
+          <button class="btn btn-brand-soft" type="button" onclick="closeConfirm(false)">取消</button>
+          <button class="btn btn-brand-danger" type="button" onclick="closeConfirm(true)">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
